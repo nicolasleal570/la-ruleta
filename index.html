@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>La ruleta de la muerte</title>
+    <script src="js/Winwheel.min.js"></script>
+
+    <script src="js/TweenMax.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <script src="js/sweetalert.min.js"></script>
+    <link href="css/sweetalert.css" rel="stylesheet" />
+
+    <meta property="og:url" content="https://oscaruhp.github.io/Laruleta/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="La ruleta (Rifa cosas)" />
+    <meta property="og:description"
+        content="Con esta ruleta online puedes rifar lo que gustes, solo llena la lista y genera tu ruleta" />
+
+</head>
+
+<body>
+    <form id="form1" runat="server">
+
+        <div>
+            <style>
+                #canvasContainer {
+                    background-image: url(img/LOGO-CMYK.png);
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    width: 700px;
+                    height: 700px;
+                    cursor: pointer;
+                    color: #ffffff;
+
+                }
+            </style>
+
+            <div class="container mt-5">
+
+                <div class="row">
+                    <div class="col-3 text-center">
+                        <div class="card bg-primary">
+                            <div class="card-body">
+
+                                <h4 class="card-title text-white">Lista de elementos:</h4>
+
+                                <textarea id="ListaElementos" class="form-control" rows="13">
+Equipo 1
+Equipo 2
+Equipo 3
+Equipo 4
+Equipo 5
+Equipo 6
+Equipo 7
+Equipo 8
+	  </textarea>
+                                <br />
+                                <input type="button" onclick="leerElementos()" class="btn btn-success btn-lg btn-block"
+                                    value="Generar Ruleta" /><br />
+                            </div>
+                        </div>
+                        <input id="bigButton" class="btn-block btn-lg btn btn-dark mt-5"
+                            onclick="objRuleta.startAnimation(); this.disabled=true;" value="Girar" type="button" />
+
+                    </div>
+                    <div class="col-7 text-center">
+                        <div id="canvasContainer" onclick="objRuleta.startAnimation()">
+                            <canvas id='Ruleta' width='700' height='690'>
+
+                                Canvas not supported, use another browser.
+                            </canvas>
+
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <br />
+                        <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+                        <!-- anuncio160_600 -->
+                        <!-- <ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:600px"
+     data-ad-client="ca-pub-4331617637495482"
+     data-ad-slot="3603100456"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <script>
+                var objRuleta;
+                var winningSegment;
+                var distnaciaX = 150;
+                var distnaciaY = 50;
+                var ctx;
+                function Mensaje() {
+                    winningSegment = objRuleta.getIndicatedSegment();
+                    SonidoFinal();
+                    swal({
+                        title: " ¡ " + winningSegment.text + " !",
+
+                        imageUrl: "img/LOGO.png",
+                        showCancelButton: true,
+                        confirmButtonColor: "#e74c3c",
+                        confirmButtonText: "Ok,Reiniciar",
+                        cancelButtonText: "Quitar elemento",
+                        closeOnConfirm: true,
+                        closeOnCancel: true
+                    },
+                        function (isConfirm) {
+                            if (isConfirm) {
+
+                            } else {
+
+                                $('#ListaElementos').val($('#ListaElementos').val().replace(winningSegment.text, ""));
+                                leerElementos();
+
+                            }
+                            objRuleta.stopAnimation(false);
+                            objRuleta.rotationAngle = 0;
+                            objRuleta.draw();
+                            DibujarTriangulo();
+                            bigButton.disabled = false;
+                        });
+
+                }
+
+                function DibujarTriangulo() {
+                    distnaciaX = 150;
+                    distnaciaY = 50;
+                    ctx = objRuleta.ctx;
+                    ctx.strokeStyle = 'navy';
+                    ctx.fillStyle = '#000000';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(distnaciaX + 170, distnaciaY + 5);
+                    ctx.lineTo(distnaciaX + 230, distnaciaY + 5);
+                    ctx.lineTo(distnaciaX + 200, distnaciaY + 40);
+                    ctx.lineTo(distnaciaX + 171, distnaciaY + 5);
+                    ctx.stroke();
+                    ctx.fill();
+                }
+
+                function DibujarRuleta(ArregloElementos) {
+
+                    objRuleta = new Winwheel({
+                        'canvasId': 'Ruleta',
+                        'numSegments': ArregloElementos.length,
+                        'outerRadius': 300,
+                        'innerRadius': 100,
+                        'segments': ArregloElementos,
+                        'animation':
+                        {
+                            'type': 'spinToStop',
+                            'duration': 10,
+                            'spins': 25,
+                            'callbackFinished': 'Mensaje()',
+                            'callbackAfter': 'DibujarTriangulo()'
+                        },
+
+                    });
+
+                    DibujarTriangulo();
+                }
+                function leerElementos() {
+                    txtListaElementos = $('#ListaElementos').val().trim();
+                    var Elementos = txtListaElementos.split('\n');
+                    var ElementosRuleta = [];
+                    var contador = 0;
+                    Elementos.forEach(function (Elemento) {
+                        contador++;
+                        if (Elemento) {
+                            if ((contador % 2) === 0) {
+                                ElementosRuleta.push({
+                                    'fillStyle': "#1C66AD",
+                                    'text': Elemento
+                                });
+                            } else {
+                                ElementosRuleta.push({
+                                    'fillStyle': "#004291",
+                                    'text': Elemento
+                                });
+                            }
+                        }
+                    });
+                    DibujarRuleta(ElementosRuleta);
+                }
+                leerElementos();
+                var final = new Audio('alarma2.mp3');  // Create audio object and load desired file.
+                function SonidoFinal() {
+                    final.pause();
+                    final.currentTime = 0;
+                    final.play();
+                }
+
+            </script>
+        </div>
+    </form>
+
+
+
+</body>
+
+</html>

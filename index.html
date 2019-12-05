@@ -22,12 +22,13 @@
 </head>
 
 <body>
+
     <form id="form1" runat="server">
 
         <div>
             <style>
                 #canvasContainer {
-                    background-image: url(img/LOGO-CMYK.png);
+                    background-image: url('img/saviaBadan2.png');
                     background-repeat: no-repeat;
                     background-position: center;
                     width: 700px;
@@ -36,37 +37,50 @@
                     color: #ffffff;
 
                 }
+
+                .card h4 {
+                    color: #262626;
+                }
+
+                .bg-badan {
+                    background: #23D9B7;
+                    
+                }
+
+                .bg-badan .btn {
+                    background: #AB05F2;
+                }
+
+                .img-wrapper {
+                    width: 100%;
+                }
+
+                .img-wrapper img {
+                    width: 100%;
+                }
+
             </style>
 
             <div class="container mt-5">
 
                 <div class="row">
-                    <div class="col-3 text-center">
-                        <div class="card bg-primary">
+                    <div class="col-12 text-center">
+                        <div class="card bg-light text-dark">
                             <div class="card-body">
 
-                                <h4 class="card-title text-white">Lista de elementos:</h4>
+                                <h4 class="card-title">Lista de Participantes:</h4>
 
-                                <textarea id="ListaElementos" class="form-control" rows="13">
-Equipo 1
-Equipo 2
-Equipo 3
-Equipo 4
-Equipo 5
-Equipo 6
-Equipo 7
-Equipo 8
-	  </textarea>
+                                <textarea id="ListaElementos" class="form-control" rows="8"></textarea>
                                 <br />
-                                <input type="button" onclick="leerElementos()" class="btn btn-success btn-lg btn-block"
+                                <input type="button" onclick="leerElementos()" class="btn btn-success btn-lg"
                                     value="Generar Ruleta" /><br />
                             </div>
                         </div>
-                        <input id="bigButton" class="btn-block btn-lg btn btn-dark mt-5"
+                        <input id="bigButton" class="btn-block btn-lg btn mt-5"
                             onclick="objRuleta.startAnimation(); this.disabled=true;" value="Girar" type="button" />
 
                     </div>
-                    <div class="col-7 text-center">
+                    <div class="col-6 text-center">
                         <div id="canvasContainer" onclick="objRuleta.startAnimation()">
                             <canvas id='Ruleta' width='700' height='690'>
 
@@ -75,18 +89,10 @@ Equipo 8
 
                         </div>
                     </div>
-                    <div class="col-2">
-                        <br />
-                        <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
-                        <!-- anuncio160_600 -->
-                        <!-- <ins class="adsbygoogle"
-     style="display:inline-block;width:160px;height:600px"
-     data-ad-client="ca-pub-4331617637495482"
-     data-ad-slot="3603100456"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
-
+                    <div class="col-6">
+                        <section class="img-wrapper">
+                            <img src="./img/saviabadan.png" alt="">
+                        </section>
                     </div>
                 </div>
 
@@ -101,7 +107,9 @@ Equipo 8
                 var ctx;
                 function Mensaje() {
                     winningSegment = objRuleta.getIndicatedSegment();
-                    SonidoFinal();
+                    console.log(winningSegment);
+
+                    // SonidoFinal();
                     swal({
                         title: " ¡ " + winningSegment.text + " !",
 
@@ -120,8 +128,8 @@ Equipo 8
 
                                 $('#ListaElementos').val($('#ListaElementos').val().replace(winningSegment.text, ""));
                                 leerElementos();
-
                             }
+
                             objRuleta.stopAnimation(false);
                             objRuleta.rotationAngle = 0;
                             objRuleta.draw();
@@ -158,7 +166,7 @@ Equipo 8
                         'animation':
                         {
                             'type': 'spinToStop',
-                            'duration': 10,
+                            'duration': 7,
                             'spins': 25,
                             'callbackFinished': 'Mensaje()',
                             'callbackAfter': 'DibujarTriangulo()'
@@ -178,12 +186,12 @@ Equipo 8
                         if (Elemento) {
                             if ((contador % 2) === 0) {
                                 ElementosRuleta.push({
-                                    'fillStyle': "#1C66AD",
+                                    'fillStyle': "#505AFC",
                                     'text': Elemento
                                 });
                             } else {
                                 ElementosRuleta.push({
-                                    'fillStyle': "#004291",
+                                    'fillStyle': "#4048C9",
                                     'text': Elemento
                                 });
                             }

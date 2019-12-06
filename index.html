@@ -28,11 +28,12 @@
         <div>
             <style>
                 #canvasContainer {
-                    background-image: url('img/saviaBadan2.png');
+                    background-image: url('img/saviaBadan.png');
                     background-repeat: no-repeat;
                     background-position: center;
-                    width: 700px;
-                    height: 700px;
+                    /* width: 700px; */
+                    /* height: 700px; */
+                    margin: 100px 0;
                     cursor: pointer;
                     color: #ffffff;
 
@@ -80,19 +81,19 @@
                             onclick="objRuleta.startAnimation(); this.disabled=true;" value="Girar" type="button" />
 
                     </div>
-                    <div class="col-6 text-center">
+                    <!-- <div class="col-6">
+                        <section class="img-wrapper">
+                            <img src="./img/saviabadan.png" alt="">
+                        </section>
+                    </div> -->
+                    <div class="col-12 text-center">
                         <div id="canvasContainer" onclick="objRuleta.startAnimation()">
-                            <canvas id='Ruleta' width='700' height='690'>
+                            <canvas id='Ruleta' width='1000' height='1000'>
 
                                 Canvas not supported, use another browser.
                             </canvas>
 
                         </div>
-                    </div>
-                    <div class="col-6">
-                        <section class="img-wrapper">
-                            <img src="./img/saviabadan.png" alt="">
-                        </section>
                     </div>
                 </div>
 
@@ -140,8 +141,8 @@
                 }
 
                 function DibujarTriangulo() {
-                    distnaciaX = 150;
-                    distnaciaY = 50;
+                    distnaciaX = 300;
+                    distnaciaY = 5;
                     ctx = objRuleta.ctx;
                     ctx.strokeStyle = 'navy';
                     ctx.fillStyle = '#000000';
@@ -160,8 +161,8 @@
                     objRuleta = new Winwheel({
                         'canvasId': 'Ruleta',
                         'numSegments': ArregloElementos.length,
-                        'outerRadius': 300,
-                        'innerRadius': 100,
+                        'outerRadius': 500,
+                        'innerRadius': 250,
                         'segments': ArregloElementos,
                         'animation':
                         {
